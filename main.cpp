@@ -97,11 +97,22 @@ int main() {
     int d = 0;
     // while loop to take in each crypted letter and decrypt
     // compute decryption exponent d = e^{-1}(mod phi)) 
-    
+    // create a while loop. loop until d is a whole number
+    // d = (phi(n)* x + 1)/e) 
+    // if (phi(n) * x + 1) % 7 == 0), then d is found, d is this value. 
+    // basically if caluclated number is a whole number, then that means d is found, if has remainder, or decimals, then we need to keep searching.
+    // try this for all x.
+    x = 1;
+    d = (phi * x + 1) % 7;
+    while(d != 0){
+      x++;
+      d = (phi * x + 1) % 7;
+    }
 
 
     // output final decrypted message
     // decrpy the message = M = C^d rem n.
+    // code out squaring method
 
 
     cout << p << ", " << q << ", " << phi << d << endl;
