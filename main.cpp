@@ -29,6 +29,16 @@ long long decrypt(long long d, long long n, long long c){
     return answer;
 }   
 
+// check to make sure that p and q are primes when we divide p to get q
+bool isPrime(long long num, long long sroot){
+    for(long long i = 2; i <= sroot; i++){
+        if(num % i == 0){
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     long long e;
     long long n;
@@ -83,11 +93,16 @@ int main() {
     long long sqrt_n = sqrt(n);
 
     // loop from i to sqrt(n) to find the prime numbers of n
-    for(int i = 2; i <= sqrt_n; i++){
+    for(long long i = 2; i <= sqrt_n; i++){
         if(n % i == 0){ // if n is divisible by i, then that means we have found one prime
             p = i;
             break;
         }
+    }
+
+    if(e == 1){
+        cout << "Public key is not valid!" << endl;
+        return 0; // 
     }
     if (p == 0){
         cout << "Public key is not valid!" << endl;
@@ -96,12 +111,21 @@ int main() {
     // to find q, we can divide n/p to find q
     q = n/p;
 
+    if(!isPrime(q, sqrt(q))){
+        cout << "Public key is not valid!" << endl;
+        return 0; // if q is not prime, it is invalid
+    }
     if (p == q){
         cout << "Public key is not valid!" << endl;
         return 0; // if p and q are same, break (from lecture)
     } 
     // find phi(n)
     long long phi = (p - 1) * (q - 1);
+
+    if(e >= phi){
+        cout << "Public key is not valid!" << endl;
+        return 0;
+    }
     
     // check if gcd(e, phi(n) == 1)
     long long gcdCheck = gcd(e, phi);
