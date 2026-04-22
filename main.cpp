@@ -9,20 +9,22 @@ using namespace std;
   
 // gcd function check
 long long gcd(long long a, long long b) {
-    if(b == 0){
+    // recursively check for the GCD
+    if(b == 0){ 
         return a;
     }
     return gcd(b, a % b);
 }
 
+// squaring the exponent method to solve
 long long decrypt(long long d, long long n, long long c){
-    long long answer = 1;
-    while(d > 0){
+    long long answer = 1; // initialize answer as 1
+    while(d > 0){ // while exponent d is still not 1 essentially, keep looping and breaking it down
         if(d % 2 == 1){ // odd exponent which means factor out
-            answer = answer * c % n;
+            answer = answer * c % n; // we do the REM multiplcation already instead of doing it later
         }
         c = c * c % n; // square the base aka c
-        d= d/2; // half the exponent
+        d= d/2; // half the exponent to further the algorithm
     }
     return answer;
 }   
@@ -101,7 +103,6 @@ int main() {
     // find phi(n)
     long long phi = (p - 1) * (q - 1);
     
-    bool dFlag = false;
     // check if gcd(e, phi(n) == 1)
     long long gcdCheck = gcd(e, phi);
     
@@ -128,6 +129,7 @@ int main() {
       d = (phi * x + 1) % e;
     }
 
+    // now that we found what x is, we can solve for what d is
     d = (phi * x + 1)/e;
 
 
@@ -161,7 +163,9 @@ int main() {
         // use alphabet mapping from earlier to map the alphabet A= 7, Z = 32
     }
 
+    // output p q phi and d
     cout << p << " " << q << " " << phi << " " << d << endl;
+    // output the message INTEGER vector from the mapped alphabet vector we create
     for(int i = 0; i < message; i++){
         cout << decodedMessageIntegers[i];
         if( i < message - 1){
@@ -170,6 +174,7 @@ int main() {
     }
     cout << endl;
 
+    // cout the actual message itself 
     for(int i = 0; i < message; i++){
         cout << decodedCharacters[i];
     }
